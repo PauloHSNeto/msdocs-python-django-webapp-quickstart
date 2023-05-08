@@ -5,6 +5,12 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
 
+def index(request):
+    print('Request for index page received')
+    return render(request, 'hello_azure/index.html')
+
+
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
