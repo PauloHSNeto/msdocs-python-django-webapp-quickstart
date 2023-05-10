@@ -83,10 +83,19 @@ WSGI_APPLICATION = 'quickstartproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'PI_S2G7@petmedvida',
+        'PASSWORD': '72N96a&x',
+        'HOST': 'petmedvida.postgres.database.azure.com',
+        'PORT': '',
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     }
 }
+
+
 
 
 # Password validation
