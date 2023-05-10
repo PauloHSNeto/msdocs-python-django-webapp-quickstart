@@ -85,7 +85,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'PI_S2G7@petmedvida',
+        'USER': 'PI_S2G7',
         'PASSWORD': '72N96a&x',
         'HOST': 'petmedvida.postgres.database.azure.com',
         'PORT': '',
