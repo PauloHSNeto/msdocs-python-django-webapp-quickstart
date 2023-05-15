@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="col-md-6 offset-md-3">
+{% comment %} <div class="col-md-6 offset-md-3">
 <h1>Add Animal</h1>
 <br/>
 
@@ -16,6 +16,118 @@
 
 </form>
 
-</div>
+</div>  {% endcomment %}
+
+ <form method="POST" action="{% url 'add_animal' %}">
+  {% csrf_token %}
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card mt-5">
+          <div class="card-header">
+            <h4 class="text-center">Cadastro de Pet</h4>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="tutor" class="form-label">Nome do Tutor<span class="text-danger">*</span></label>
+              <input type="text" name="ani_nome" id="ani_nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="ani_nome" class="form-label">Nome do animal<span class="text-danger">*</span></label>
+              <input type="text" name="ani_nome" id="ani_nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="ani_raça" class="form-label">Raça do animal</label>
+              <input type="text" name="ani_raça" id="ani_raça" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="ani_espec" class="form-label">Espécie do animal<span class="text-danger">*</span></label>
+              <input type="text" name="ani_espec" id="ani_espec" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="ani_sexo" class="form-label">Sexo do animal<span class="text-danger">*</span></label>
+              <select name="ani_sexo" id="ani_sexo" class="form-select" required>
+                <option value="macho">Macho</option>
+                <option value="fêmea">Fêmea</option>
+                <option value="indefinido">Indefinido</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="ani_cor" class="form-label">Cor da pelagem ou plumagem<span class="text-danger">*</span></label>
+              <input type="text" name="ani_cor" id="ani_cor" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="ani_foto" class="form-label">Fotografia do animal</label>
+              <input type="file" name="ani_foto" id="ani_foto" class="form-control">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="ani_porte" class="form-label">Porte</label>
+              <select class="form-select" id="ani_porte" name="ani_porte" required>
+                <option value="">Selecione</option>
+                <option value="Pequeno">Pequeno</option>
+                <option value="Médio">Médio</option>
+                <option value="Grande">Grande</option>
+              </select>
+            </div>            
+            <div class="col-md-6 mb-3">
+              <label for="ani_rga" class="form-label">Registro Geral</label>
+              <input type="text" class="form-control" id="ani_rga" name="ani_rga">
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label for="ani_castr" class="form-label">Castrado</label>
+              <select class="form-select" id="ani_castr" name="ani_castr">
+                <option value="">Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+                <option value="Não sei">Não sei</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="ani_anilha" class="form-label">Número de identificação da anilha (no caso de aves)</label>
+              <input type="text" class="form-control" id="ani_anilha" name="ani_anilha">
+            </div>
+            
+            <div class="mb-3">
+              <label for="ani_nmchip" class="form-label">Número de identificação do microchip (se houver)</label>
+              <input type="text" class="form-control" id="ani_nmchip" name="ani_nmchip">
+            </div>
+            <div class="mb-3">
+              <label for="ani_dnasc" class="form-label">Data de nascimento do animal</label>
+              <input type="date" name="ani_dnasc" id="ani_dnasc" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="ani_idade" class="form-label">Idade do animal em anos</label>
+              <input type="number" class="form-control" id="ani_idade" name="ani_idade" required>
+            </div>
+            <div class="mb-3">
+              <label for="ani_vacinado" class="form-label">Vacinado</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="ani_vacinado" name="ani_vacinado">
+                <label class="form-check-label" for="ani_vacinado">Sim</label>
+              </div>
+            </div>            
+            <div class="mb-3">
+              <label for="ani_vermifugado" class="form-label">Vermifugado</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="ani_vermifugado" name="ani_vermifugado">
+                <label class="form-check-label" for="ani_vermifugado">Sim</label>
+              </div>
+            </div>
+                       
+            <div class="mb-3">
+              <label for="ani_obs" class="form-label">Observações</label>
+              <textarea class="form-control" id="ani_obs" name="ani_obs" rows="3"></textarea>
+            </div>
+            
+            <p></p>
+            
+            <div class="mb-3 d-flex justify-content-center">
+              <button type="submit" class="btn btn-dark">Enviar</button>
+            </div>            
+  </div>          
+</form> 
 
 {% endblock %}
