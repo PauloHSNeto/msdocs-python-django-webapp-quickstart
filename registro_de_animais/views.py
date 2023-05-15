@@ -95,8 +95,9 @@ def add_animal(request):
 	if request.user.is_authenticated:
 		if request.method == "POST":
 			if form.is_valid():
-				add_record = form.save()
-				messages.success(request, "Animal adcionado")
+				add_record = form.save(commit=False)
+				messages.success(request, "Animal adcionado com sucesso")
+				add_record.save()
 				return redirect('home')
 		return render(request, 'add_animal.html', {'form':form})
 	else:

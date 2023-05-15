@@ -36,8 +36,8 @@ class SignUpForm(UserCreationForm):
 class AddAnimalForm(forms.ModelForm):
     class Meta:
         model = Animal
-        fields = ['tutor', 'nome', 'idade', 'especie', 'sexo', 'data_nascimento', 'cor', 'foto', 'porte', 'raça', 'rga', 'castrado', 'anilha', 'chip', 'vacinado', 'vermifugado']
+        fields = ['tutor', 'ani_nome', 'ani_raça', 'ani_espec', 'ani_sexo', 'ani_cor', 'ani_foto', 'ani_porte', 'ani_rga', 'ani_castr', 'ani_anilha', 'ani_nmchip', 'ani_dnasc', 'ani_idade', 'ani_vacinado', 'ani_vermifugado', 'ani_obs']
         widgets = {
-            'data_nascimento': forms.DateInput(attrs={'type': 'date'}),
-            'foto': forms.FileInput(attrs={'multiple': False}),
+            'ani_dnasc': forms.DateInput(attrs={'type': 'date'}),
+            'ani_foto': forms.FileInput(attrs={'multiple': False}),
         }
