@@ -24,10 +24,28 @@ def home(request):
 		return render(request, 'home.html', {'animais':records})
 
 
+def login_user(request):
+	records = Animal.objects.all()
+	# Check to see if logging in
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		# Authenticate
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			login(request, user)
+			messages.success(request, "Você está logado...")
+			return redirect('home')
+		else:
+			messages.success(request, "Houve um erro ao tentar logar...Tente novamente...")
+			return redirect('login')
+	else:
+		return render(request, 'login.html', {'animais':records})
+
 
 def logout_user(request):
 	logout(request)
-	messages.success(request, "Voçê saiu da sua conta...")
+	messages.success(request, "Você saiu da sua conta...")
 	return redirect('home')
 
 
@@ -41,7 +59,7 @@ def register_user(request):
 			password = form.cleaned_data['password1']
 			user = authenticate(username=username, password=password)
 			login(request, user)
-			messages.success(request, "Voçe foi registrado com sucesso...Bem vindo...")
+			messages.success(request, "Você foi registrado com sucesso, Bem vindo!")
 			return redirect('home')
 	else:
 		form = SignUpForm()
@@ -68,7 +86,7 @@ def delete_record(request, pk):
 		messages.success(request, "Animal Deletado...")
 		return redirect('home')
 	else:
-		messages.success(request, "Voçe precisa estar logado para fazer isso...")
+		messages.success(request, "Você precisa estar logado para fazer isso...")
 		return redirect('home')
 
 
@@ -82,7 +100,7 @@ def add_animal(request):
 				return redirect('home')
 		return render(request, 'add_animal.html', {'form':form})
 	else:
-		messages.success(request, "Voçe precisa estar logado para fazer isso...")
+		messages.success(request, "Você precisa estar logado para fazer isso...")
 		return redirect('home')
 
 
@@ -96,5 +114,5 @@ def update_animal(request, pk):
 			return redirect('home')
 		return render(request, 'update_record.html', {'form':form})
 	else:
-		messages.success(request, "Voçe precisa estar logado para fazer isso...")
+		messages.success(request, "Você precisa estar logado para fazer isso...")
 		return redirect('home')
