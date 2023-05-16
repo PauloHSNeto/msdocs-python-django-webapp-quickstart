@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddAnimalForm
-from .models.animais import Animal
+from .models.animais import *
 
 
 def home(request):
@@ -99,6 +99,8 @@ def add_animal(request):
 				messages.success(request, "Animal adcionado com sucesso")
 				add_record.save()
 				return redirect('home')
+			messages.success(request, "formulário inválido")
+			return redirect('home')
 		return render(request, 'add_animal.html', {'form':form})
 	else:
 		messages.success(request, "Você precisa estar logado para fazer isso...")
