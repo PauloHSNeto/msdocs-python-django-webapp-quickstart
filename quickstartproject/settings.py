@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hello_azure',
     'registro_de_animais',
 
 ]
@@ -137,7 +136,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
-STATIC_URL = 'static/'
+STATIC_URL = r'/static/'
+
+MEDIA_ROOT = (str(BASE_DIR.joinpath('static/images')))
+MEDIA_URL = r'/images/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
