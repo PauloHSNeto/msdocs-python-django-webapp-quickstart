@@ -119,3 +119,19 @@ def update_animal(request, pk):
 	else:
 		messages.success(request, "Você precisa estar logado para fazer isso...")
 		return redirect('home')
+
+def pet_list(request):
+	if request.user.is_authenticated:
+		animals = Animal.objects.all()
+		return render(request, 'pet_list.html', {'animals':animals})
+	else:
+		messages.success(request, "Você precisa estar logado para fazer isso...")
+		return redirect('home')
+
+def animal_profile(request, pk):
+	if request.user.is_authenticated:
+		animal = Animal.objects.get(id=pk)
+		return render(request, 'animal_profile.html', {'animal':animal})
+	else:
+		messages.success(request, "Você precisa estar logado para fazer isso...")
+		return redirect('home')
