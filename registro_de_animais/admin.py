@@ -4,6 +4,8 @@ from django.contrib import admin
 from .models.animais import *
 from .models.vacinas import *
 
+
+
 admin.site.register(Animal)
 
 admin.site.register(Vacina)
