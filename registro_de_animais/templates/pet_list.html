@@ -28,9 +28,9 @@
                         <tr>
                             <td>
                                 {% if animal.ani_foto %}
-                                    <img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle" style="width: 80px; height: 80px;">
+                                <a href="{% url 'animal_profile' animal.id %}"><img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle img-fluid" style="width: 80px; height: 80px;"></a>
                                 {% else %}
-                                    <i class="fas fa-paw"></i>
+                                <a href="{% url 'animal_profile' animal.id %}"><img src="/media/default_pet_profile.png" class="rounded-circle img-fluid" alt="{{ animal.ani_nome }}" style="width: 80px; height: 80px;"></a>
                                 {% endif %}
                             </td>
                             <td>{{ animal.tutor }}</td>
