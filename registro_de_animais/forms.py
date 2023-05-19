@@ -33,14 +33,6 @@ class SignUpForm(UserCreationForm):
 		self.fields['password2'].label = ''
 		self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Digite a mesma senha de antes, para verificação.</small></span>'	
 
-# class AddAnimalForm(forms.ModelForm):
-#     class Meta:
-#         model = Animal
-#         fields =  '__all__'
-#         widgets = {
-#             'ani_dnasc': forms.DateInput(attrs={'type': 'date'}),
-#             'ani_foto': forms.FileInput(attrs={'multiple': False}),
-#         }
 
 class AddAnimalForm(forms.ModelForm):
     CASTRADO_CHOICES = [
@@ -72,7 +64,7 @@ class AddAnimalForm(forms.ModelForm):
     ani_sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Sexo')
     ani_porte = forms.ChoiceField(choices=PORTE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Porte')
     
-    
+
     class Meta:
         model = Animal
         fields = '__all__'
@@ -92,19 +84,19 @@ class AddAnimalForm(forms.ModelForm):
             'ani_obs': 'Observações',
         }
         widgets = {
-            'tutor': forms.TextInput(attrs={'class': 'form-control'}),
-            'ani_dnasc': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'ani_foto': forms.FileInput(attrs={'multiple': False, 'class': 'form-control'}),
+            'tutor': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_foto': forms.FileInput(attrs={'multiple': False, 'class': 'form-control', 'blank': True}),
             'ani_nome': forms.TextInput(attrs={'class': 'form-control'}),
             'ani_raça': forms.TextInput(attrs={'class': 'form-control'}),
             'ani_sexo': forms.Select(attrs={'class': 'form-select'}),
             'ani_cor': forms.TextInput(attrs={'class': 'form-control'}),
             'ani_porte': forms.Select(attrs={'class': 'form-select'}),
-            'ani_rga': forms.TextInput(attrs={'class': 'form-control'}),
-            'ani_anilha': forms.TextInput(attrs={'class': 'form-control'}),
-            'ani_nmchip': forms.TextInput(attrs={'class': 'form-control'}),
-            'ani_idade': forms.NumberInput(attrs={'class': 'form-control'}),
+            'ani_rga': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_anilha': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_nmchip': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_dnasc': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'ani_idade': forms.NumberInput(attrs={'class': 'form-control', 'blank': True}),
             'ani_vacinado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'ani_vermifugado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'ani_obs': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'ani_obs': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}),
         }
