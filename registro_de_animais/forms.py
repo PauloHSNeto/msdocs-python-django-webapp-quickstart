@@ -100,3 +100,70 @@ class AddAnimalForm(forms.ModelForm):
             'ani_vermifugado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'ani_obs': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}),
         }
+
+class UpdateAnimalForm(forms.ModelForm):
+    CASTRADO_CHOICES = [
+        ('Sim', 'Sim'),
+        ('Não', 'Não'),
+        ('Não sei', 'Não sei'),
+    ]
+    
+    ESPECIE_CHOICES = [
+        ('Cachorro', 'Cachorro'),
+        ('Gato', 'Gato'),
+        ('Ave', 'Ave'),
+        ('Outro', 'Outro'),
+    ]
+    
+    SEXO_CHOICES = [
+        ('Macho', 'Macho'),
+        ('Fêmea', 'Fêmea'),
+        ('Indefinido', 'Indefinido'),
+    ]
+    
+    PORTE_CHOICES = [
+        ('Pequeno', 'Pequeno'),
+        ('Médio', 'Médio'),
+        ('Grande', 'Grande'),
+    ]
+    
+    ani_castr = forms.ChoiceField(choices=CASTRADO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Castrado')
+    ani_espec = forms.ChoiceField(choices=ESPECIE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Espécie')
+    ani_sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Sexo')
+    ani_porte = forms.ChoiceField(choices=PORTE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Porte')
+    ani_dnasc = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Data de nascimento do animal')
+    
+    class Meta:
+        model = Animal
+        fields = '__all__'
+        labels = {
+            'tutor': 'Tutor',
+            'ani_nome': 'Nome do animal',
+            'ani_raça': 'Raça do animal',
+            'ani_cor': 'Cor da pelagem ou plumagem',
+            'ani_foto': 'Fotografia do animal',
+            'ani_rga': 'Registro Geral',
+            'ani_anilha': 'Número de identificação da anilha (no caso de aves)',
+            'ani_nmchip': 'Número de identificação do microchip (se houver)',
+            'ani_idade': 'Idade do animal em anos',
+            'ani_vacinado': 'Vacinado',
+            'ani_vermifugado': 'Vermifugado',
+            'ani_obs': 'Observações',
+        }
+        widgets = {
+            'tutor': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_foto': forms.FileInput(attrs={'multiple': False, 'class': 'form-control', 'blank': True}),
+            'ani_nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'ani_raça': forms.TextInput(attrs={'class': 'form-control'}),
+            'ani_sexo': forms.Select(attrs={'class': 'form-select'}),
+            'ani_cor': forms.TextInput(attrs={'class': 'form-control'}),
+            'ani_porte': forms.Select(attrs={'class': 'form-select'}),
+            'ani_rga': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_anilha': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_nmchip': forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_dnasc': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'ani_idade': forms.NumberInput(attrs={'class': 'form-control', 'blank': True}),
+            'ani_vacinado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'ani_vermifugado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'ani_obs': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}),
+        }
