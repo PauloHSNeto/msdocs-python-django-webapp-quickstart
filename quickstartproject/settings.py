@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 CSRF_TRUSTED_ORIGINS = [
     'https://petmedvida.azurewebsites.net',
+    'http://127.0.0.1:8000/',
     # add any other trusted origins as needed
 ]
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registro_de_animais',
+
 
 ]
 
@@ -147,3 +149,5 @@ MEDIA_URL = r'/media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

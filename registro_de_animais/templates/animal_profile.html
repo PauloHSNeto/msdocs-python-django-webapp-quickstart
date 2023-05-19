@@ -2,7 +2,29 @@
 
 {% block content %}
 
-<h1>Home</h1>
+<BR/>
 
+            <div class="pet-profile card">
+                <div class="row table-responsive card-body">
+                    <div class="col-md-4 text-center">
+                        <img src="{% if animal.ani_foto %}{{ animal.ani_foto.url }}{% else %}/media/default_pet_profile.png{% endif %}" class="img-fluid" alt="{{ animal.ani_nome }}">
+                    </div>
+                    <div class="col-md-8">
+                        <h2>{{ animal.ani_nome }}</h2>
+                        <p><strong>Tutor:</strong> {{ animal.tutor }}</p>
+                        <p><strong>Raça:</strong> {{ animal.ani_raça }}</p>
+                        <p><strong>Espécie:</strong> {{ animal.ani_espec }}</p>
+                        <p><strong>Sexo:</strong> {{ animal.ani_sexo }}</p>
+                        <p><strong>Cor:</strong> {{ animal.ani_cor }}</p>
+                        <p><strong>Porte:</strong> {{ animal.ani_porte }}</p>
+                        <p><strong>Data de Nascimento:</strong> {{ animal.ani_dnasc }}</p>
+                        <p><strong>Idade:</strong> {{ animal.ani_idade }}</p>
+                        <p><strong>Data de Cadastro:</strong> {{ animal.data_cadastro }}</p>
+                        <p><strong>Vacinado:</strong> {% if animal.ani_vacinado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</p>
+                        <p><strong>Vermifugado:</strong> {% if animal.ani_vermifugado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</p>
+                        <p><strong>Observações:</strong> {{ animal.ani_obs }}</p>
+                    </div>
+                </div>
+            </div>
 
 {% endblock %}

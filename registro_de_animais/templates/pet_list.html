@@ -3,9 +3,10 @@
 {% block content %}
 
     {% if animals %}
-        <div class="container">
-            <h1>Lista de Animais</h1>
-            <table class="table">
+    <div class="container">
+        <h1 class="mt-4 mb-4">Pets Cadastrados</h1>
+        <div class="table-responsive ">
+          <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Foto</th>
@@ -16,15 +17,10 @@
                         <th>Sexo</th>
                         <th>Cor</th>
                         <th>Porte</th>
-                        <th>RGA</th>
                         <th>Castrado</th>
-                        <th>Anilha</th>
-                        <th>Número do Chip</th>
-                        <th>Data de Nascimento</th>
                         <th>Idade</th>
                         <th>Vacinado</th>
                         <th>Vermifugado</th>
-                        <th>Observações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,9 +28,9 @@
                         <tr>
                             <td>
                                 {% if animal.ani_foto %}
-                                    <img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle" style="width: 50px; height: 50px;">
+                                <a href="{% url 'animal_profile' animal.id %}"><img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle img-fluid" style="width: 80px; height: 80px;"></a>
                                 {% else %}
-                                    <i class="fas fa-paw"></i>
+                                <a href="{% url 'animal_profile' animal.id %}"><img src="/media/default_pet_profile.png" class="rounded-circle img-fluid" alt="{{ animal.ani_nome }}" style="width: 80px; height: 80px;"></a>
                                 {% endif %}
                             </td>
                             <td>{{ animal.tutor }}</td>
@@ -44,22 +40,25 @@
                             <td>{{ animal.ani_sexo }}</td>
                             <td>{{ animal.ani_cor }}</td>
                             <td>{{ animal.ani_porte }}</td>
-                            <td>{{ animal.ani_rga }}</td>
                             <td>{{ animal.ani_castr }}</td>
-                            <td>{{ animal.ani_anilha }}</td>
-                            <td>{{ animal.ani_nmchip }}</td>
-                            <td>{{ animal.ani_dnasc }}</td>
                             <td>{{ animal.ani_idade }}</td>
                             <td>{% if animal.ani_vacinado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
                             <td>{% if animal.ani_vermifugado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
-                            <td>{{ animal.ani_obs }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+    </div>
     {% else %}
-        <h1>Não há animais cadastrados</h1>
+    
+    <div class="container">
+        <div class="alert alert-danger" role="alert">
+            Não Há animais cadastrados!
+        </div>
+    </div>
+
+
     {% endif %}
 
 {% endblock %}
