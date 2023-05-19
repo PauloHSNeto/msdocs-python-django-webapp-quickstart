@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddAnimalForm
+from .forms import SignUpForm, AddAnimalForm, UpdateAnimalForm
 from .models.animais import *
 
 
@@ -112,8 +112,8 @@ def add_animal(request):
 def update_animal(request, pk):
     if request.user.is_authenticated:
         current_animal = Animal.objects.get(id=pk)
-        form = AddAnimalForm(request.POST or None, instance=current_animal)
-
+        form = UpdateAnimalForm(request.POST or None, instance=current_animal)
+  
         if 'ani_dnasc' in form.fields and current_animal.ani_dnasc:
             initial_date = current_animal.ani_dnasc.isoformat()
             form.fields['ani_dnasc'].initial = initial_date
