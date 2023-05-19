@@ -23,12 +23,12 @@
                     <li><a class="dropdown-item" href="{% url 'pet_list' %}">Listar Pets</a></li>
                   </ul>
                 </li>
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                   <a class="nav-link" href="#">Meu Perfil</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">Contato</a>
-                </li>
+                </li> {% endcomment %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
@@ -56,9 +56,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li> 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                   <a class="nav-link" href="#">Contato</a>
-                </li>
+                </li> {% endcomment %}
 
               </ul>
             </div>

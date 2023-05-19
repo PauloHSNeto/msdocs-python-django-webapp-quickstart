@@ -6,7 +6,7 @@ from .models.animais import *
 
 
 def home(request):
-	records = Animal.objects.all()
+	animal = Animal.objects.all()
 	# Check to see if logging in
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -21,7 +21,7 @@ def home(request):
 			messages.success(request, "Houve um erro ao tentar logar...Tente novamente...")
 			return redirect('home')
 	else:
-		return render(request, 'home.html', {'animais':records})
+		return render(request, 'home.html', {'animal':animal})
 
 
 def login_user(request):
@@ -79,11 +79,11 @@ def registro_do_animal(request, pk):
 
 
 
-def delete_record(request, pk):
+def delete_animal(request, pk):
 	if request.user.is_authenticated:
 		delete_it = Animal.objects.get(id=pk)
 		delete_it.delete()
-		messages.success(request, "Animal Deletado...")
+		messages.success(request, "Animal Deletado com sucesso!")
 		return redirect('home')
 	else:
 		messages.success(request, "Você precisa estar logado para fazer isso...")
@@ -107,18 +107,26 @@ def add_animal(request):
 		return redirect('home')
 
 
+
+
 def update_animal(request, pk):
-	if request.user.is_authenticated:
-		current_record = Animal.objects.get(id=pk)
-		form = AddAnimalForm(request.POST or None, instance=current_record)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Animal Atualizado")
-			return redirect('home')
-		return render(request, 'update_record.html', {'form':form})
-	else:
-		messages.success(request, "Você precisa estar logado para fazer isso...")
-		return redirect('home')
+    if request.user.is_authenticated:
+        current_animal = Animal.objects.get(id=pk)
+        form = AddAnimalForm(request.POST or None, instance=current_animal)
+
+        if 'ani_dnasc' in form.fields and current_animal.ani_dnasc:
+            initial_date = current_animal.ani_dnasc.isoformat()
+            form.fields['ani_dnasc'].initial = initial_date
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Animal Atualizado")
+            return redirect('home')
+        return render(request, 'update_animal.html', {'form':form})
+    else:
+        messages.success(request, "Você precisa estar logado para fazer isso...")
+        return redirect('home')
+
 
 def pet_list(request):
 	if request.user.is_authenticated:
