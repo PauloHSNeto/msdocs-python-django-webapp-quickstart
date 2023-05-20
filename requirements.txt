@@ -3,3 +3,4 @@ whitenoise
 django-rest-framework
 pillow
 psycopg2
+django-role-permissions
