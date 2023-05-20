@@ -4,7 +4,9 @@ from django.contrib import messages
 from .forms import SignUpForm, AddAnimalForm, UpdateAnimalForm
 from .models.animais import *
 from django.contrib.auth.decorators import login_required
-
+from rolepermissions.roles import assign_role
+from rolepermissions.decorators import has_role_decorator, has_permission_decorator
+from .roles import Morador
 
 def home(request):
 	animal = Animal.objects.all()
@@ -53,7 +55,8 @@ def register_user(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user=form.save()
+            assign_role(user, Morador)
             
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
@@ -75,6 +78,7 @@ def registro_do_animal(request, pk):
 
 
 @login_required
+@has_permission_decorator('can_delete_animal')
 def delete_animal(request, pk):
     delete_it = Animal.objects.get(id=pk)
     delete_it.delete()
@@ -83,6 +87,7 @@ def delete_animal(request, pk):
 
 
 @login_required
+@has_permission_decorator('can_add_animal')
 def add_animal(request):
     form = AddAnimalForm(request.POST, request.FILES or None)
 
@@ -100,6 +105,7 @@ def add_animal(request):
 
 
 @login_required
+@has_permission_decorator('can_update_animal')
 def update_animal(request, pk):
     current_animal = get_object_or_404(Animal, id=pk)
 
@@ -119,6 +125,8 @@ def update_animal(request, pk):
 def pet_list(request):
     animals = Animal.objects.all()
     return render(request, 'pet_list.html', {'animals': animals})
+
+
 
 @login_required
 def animal_profile(request, pk):
