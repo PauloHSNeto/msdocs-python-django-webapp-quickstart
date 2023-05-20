@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddAnimalForm, UpdateAnimalForm
 from .models.animais import *
-
+from django.contrib.auth.decorators import login_required
 
 def home(request):
 	animal = Animal.objects.all()
@@ -90,42 +90,37 @@ def delete_animal(request, pk):
 		return redirect('home')
 
 
+@login_required
 def add_animal(request):
-	form = AddAnimalForm(request.POST or None)
-	if request.user.is_authenticated:
-		if request.method == "POST":
-			if form.is_valid():
-				add_record = form.save(commit=False)
-				messages.success(request, "Animal adcionado com sucesso")
-				add_record.save()
-				return redirect('home')
-			messages.success(request, "formulário inválido")
-			return redirect('home')
-		return render(request, 'add_animal.html', {'form':form})
-	else:
-		messages.success(request, "Você precisa estar logado para fazer isso...")
-		return redirect('home')
+    form = AddAnimalForm(request.POST, request.FILES or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+            add_record = form.save()
+            add_record.save()
+            messages.success(request, "Animal adicionado com sucesso")
+            return redirect('animal_profile', pk=add_record.pk)
+        else:
+            messages.error(request, "Formulário inválido")
+    return render(request, 'add_animal.html', {'form': form})
 
 
 
 
+@login_required
 def update_animal(request, pk):
-    if request.user.is_authenticated:
-        current_animal = Animal.objects.get(id=pk)
-        form = UpdateAnimalForm(request.POST or None, instance=current_animal)
-  
-        if 'ani_dnasc' in form.fields and current_animal.ani_dnasc:
-            initial_date = current_animal.ani_dnasc.isoformat()
-            form.fields['ani_dnasc'].initial = initial_date
+    current_animal = get_object_or_404(Animal, id=pk)
 
+    if request.method == 'POST':
+        form = UpdateAnimalForm(request.POST, request.FILES, instance=current_animal)
         if form.is_valid():
             form.save()
-            messages.success(request, "Animal Atualizado")
-            return redirect('home')
-        return render(request, 'update_animal.html', {'form':form})
+            messages.success(request, "Animal atualizado")
+            return redirect('animal_profile', pk=pk)
     else:
-        messages.success(request, "Você precisa estar logado para fazer isso...")
-        return redirect('home')
+        form = UpdateAnimalForm(instance=current_animal)
+
+    return render(request, 'update_animal.html', {'form': form})
 
 
 def pet_list(request):

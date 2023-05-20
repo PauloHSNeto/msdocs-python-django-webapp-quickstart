@@ -10,7 +10,7 @@ class Animal(models.Model):
     ani_espec = models.CharField(max_length=50)
     ani_sexo = models.CharField(max_length=50)
     ani_cor = models.CharField(max_length=50)
-    ani_foto = models.ImageField(blank=True, null=True, upload_to='media/animais/', default='')
+    ani_foto = models.ImageField(blank=True, null=True, upload_to='pet_profile_pics', default='')
     ani_porte = models.CharField(max_length=50)
     ani_rga = models.CharField(max_length=50, blank=True, null=True)
     ani_castr = models.CharField(max_length=50)
@@ -26,13 +26,3 @@ class Animal(models.Model):
     def __str__(self):
         return self.ani_nome
     
-class Photo(models.Model):
-    photo = models.ImageField('foto', upload_to='')
-    Animal = models.ForeignKey(Animal, on_delete=models.CASCADE, verbose_name='foto', related_name='Animal')
-    class Meta:
-        ordering = ['pk']
-        verbose_name = 'Foto'
-        verbose_name_plural = 'Fotos'
-        
-    def __str__(self):
-        return str(self.Animal.ani_nome)
