@@ -2,64 +2,77 @@
 
 {% block content %}
 
-    {% if animals %}
-    <div class="container">
-        <h1 class="mt-4 mb-4">Pets Cadastrados</h1>
-        <div class="table-responsive ">
-          <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Foto</th>
-                        <th>Tutor</th>
-                        <th>Nome</th>
-                        <th>Raça</th>
-                        <th>Espécie</th>
-                        <th>Sexo</th>
-                        <th>Cor</th>
-                        <th>Porte</th>
-                        <th>Castrado</th>
-                        <th>Idade</th>
-                        <th>Vacinado</th>
-                        <th>Vermifugado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for animal in animals %}
-                        <tr>
-                            <td>
-                                {% if animal.ani_foto %}
-                                <a href="{% url 'animal_profile' animal.id %}"><img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle img-fluid" style="width: 80px; height: 80px;"></a>
-                                {% else %}
-                                <a href="{% url 'animal_profile' animal.id %}"><img src="/media/default_pet_profile.png" class="rounded-circle img-fluid" alt="{{ animal.ani_nome }}" style="width: 80px; height: 80px;"></a>
-                                {% endif %}
-                            </td>
-                            <td>{{ animal.tutor }}</td>
-                            <td><a href="{% url 'animal_profile' animal.id %}">{{ animal.ani_nome }}</a></td>
-                            <td>{{ animal.ani_raça }}</td>
-                            <td>{{ animal.ani_espec }}</td>
-                            <td>{{ animal.ani_sexo }}</td>
-                            <td>{{ animal.ani_cor }}</td>
-                            <td>{{ animal.ani_porte }}</td>
-                            <td>{{ animal.ani_castr }}</td>
-                            <td>{{ animal.ani_idade }}</td>
-                            <td>{% if animal.ani_vacinado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
-                            <td>{% if animal.ani_vermifugado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    {% else %}
+{% if animals %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Pets Cadastrados</h1>    
     
-    <div class="container">
-        <div class="alert alert-danger" role="alert">
-            Não Há animais cadastrados!
-        </div>
+    <div class="d-flex mb-4">
+        <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar outro pet</a>
     </div>
 
+    <table id="animalTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Tutor</th>
+                <th>Nome</th>
+                <th>Raça</th>
+                <th>Espécie</th>
+                <th>Sexo</th>
+                <th>Cor</th>
+                <th>Porte</th>
+                <th>Castrado</th>
+                <th>Idade</th>
+                <th>Vacinado</th>
+                <th>Vermifugado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for animal in animals %}
+                <tr>
+                    <td>
+                        {% if animal.ani_foto %}
+                        <a href="{% url 'animal_profile' animal.id %}"><img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle img-fluid" style="width: 80px; height: 80px;"></a>
+                        {% else %}
+                        <a href="{% url 'animal_profile' animal.id %}"><img src="/media/default_pet_profile.png" class="rounded-circle img-fluid" alt="{{ animal.ani_nome }}" style="width: 80px; height: 80px;"></a>
+                        {% endif %}
+                    </td>
+                    <td>{{ animal.tutor }}</td>
+                    <td><a href="{% url 'animal_profile' animal.id %}">{{ animal.ani_nome }}</a></td>
+                    <td>{{ animal.ani_raça }}</td>
+                    <td>{{ animal.ani_espec }}</td>
+                    <td>{{ animal.ani_sexo }}</td>
+                    <td>{{ animal.ani_cor }}</td>
+                    <td>{{ animal.ani_porte }}</td>
+                    <td>{{ animal.ani_castr }}</td>
+                    <td>{{ animal.ani_idade }}</td>
+                    <td>{% if animal.ani_vacinado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
+                    <td>{% if animal.ani_vermifugado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-    {% endif %}
+<script>
+$(document).ready(function() {
+    $('#animalTable').DataTable();
+});
+</script>
+
+{% else %}
+
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        Não há animais cadastrados!
+    </div>
+    <div class="d-flex justify-content-end mb-4">
+        <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar outro pet</a>
+    </div>
+</div>
+
+
+{% endif %}
 
 {% endblock %}
 
