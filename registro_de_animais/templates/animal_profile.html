@@ -60,6 +60,8 @@
           <p><strong>Sexo:</strong> {{ animal.ani_sexo }}</p>
           <p><strong>Cor:</strong> {{ animal.ani_cor }}</p>
           <p><strong>Porte:</strong> {{ animal.ani_porte }}</p>
+          <p><strong>Registro Geral:</strong> {{ animal.ani_rga }}</p>
+          <p><strong>Anilha:</strong> {{ animal.ani_anilha }}</p>
         </div>
         <div class="col-md-6">
           <p><strong>Data de Nascimento:</strong> {{ animal.ani_dnasc }}</p>
@@ -67,6 +69,8 @@
           <p><strong>Data de Cadastro:</strong> {{ animal.data_cadastro }}</p>
           <p><strong>Vacinado:</strong> {% if animal.ani_vacinado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</p>
           <p><strong>Vermifugado:</strong> {% if animal.ani_vermifugado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</p>
+          <p><strong>Castrado:</strong> {{animal.ani_castr}}</p>
+          <p><strong>Microchip:</strong> {{ animal.ani_nmchip }}</p>
         </div>
         <p><strong>Observações:</strong></p>
         <div class="observations">
