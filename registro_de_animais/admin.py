@@ -7,6 +7,5 @@ from .models.vacinas import *
 
 
 admin.site.register(Animal)
-admin.site.register(Photo)
 
 admin.site.register(Vacina)
