@@ -2,30 +2,34 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddAnimalForm, UpdateAnimalForm
-from .models.animais import *
+from .models.animais import Animal
 from django.contrib.auth.decorators import login_required
 from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_role_decorator, has_permission_decorator
-from .roles import Morador
+from .roles import Morador, Sindico
+from django.contrib.auth.models import User
+
 
 def home(request):
-	animal = Animal.objects.all()
-	# Check to see if logging in
-	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
-		# Authenticate
-		user = authenticate(request, username=username, password=password)
-		if user is not None:
-			login(request, user)
-			messages.success(request, "Você está logado...")
-			return redirect('home')
-		else:
-			messages.success(request, "Houve um erro ao tentar logar...Tente novamente...")
-			return redirect('home')
-	else:
-		return render(request, 'home.html', {'animal':animal})
-
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Você está logado...")
+            return redirect('home')
+        else:
+            messages.success(request, "Houve um erro ao tentar logar... Tente novamente...")
+            return redirect('home')
+    else:
+        if request.user.has_perm('can_see_all_animals'):
+            animals = Animal.objects.all()
+            messages.success(request, "Usuário tem permissão para ver todos os animais")
+        else:
+            animals = Animal.objects.filter(tutor=request.user)
+            messages.error(request, "Usuário não tem permissão para ver todos os animais")
+        return render(request, 'home.html', {'animals': animals})
 
 def login_user(request):
     if request.method == 'POST':
@@ -43,19 +47,17 @@ def login_user(request):
 
     return render(request, 'login.html')
 
-
 @login_required
 def logout_user(request):
     logout(request)
     messages.success(request, "Você saiu da sua conta...")
     return redirect('home')
 
-
 def register_user(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user=form.save()
+            user = form.save()
             assign_role(user, Morador)
             
             username = form.cleaned_data['username']
@@ -70,21 +72,13 @@ def register_user(request):
     
     return render(request, 'register.html', {'form': form})
 
-
-@login_required
-def registro_do_animal(request, pk):
-    animal = Animal.objects.get(id=pk)
-    return render(request, 'record.html', {'animal': animal})
-
-
 @login_required
 @has_permission_decorator('can_delete_animal')
 def delete_animal(request, pk):
-    delete_it = Animal.objects.get(id=pk)
+    delete_it = get_object_or_404(Animal, id=pk)
     delete_it.delete()
     messages.success(request, "Animal deletado com sucesso!")
     return redirect('home')
-
 
 @login_required
 @has_permission_decorator('can_add_animal')
@@ -93,16 +87,14 @@ def add_animal(request):
 
     if request.method == "POST":
         if form.is_valid():
-            add_record = form.save()
-            add_record.save()
+            animal = form.save(commit=False)
+            animal.tutor = request.user
+            animal.save()
             messages.success(request, "Animal adicionado com sucesso")
-            return redirect('animal_profile', pk=add_record.pk)
+            return redirect('animal_profile', pk=animal.pk)
         else:
             messages.error(request, "Formulário inválido")
     return render(request, 'add_animal.html', {'form': form})
-
-
-
 
 @login_required
 @has_permission_decorator('can_update_animal')
@@ -120,19 +112,18 @@ def update_animal(request, pk):
 
     return render(request, 'update_animal.html', {'form': form})
 
-
 @login_required
 def pet_list(request):
-    animals = Animal.objects.all()
+    if request.user.has_perm('can_see_all_animals'):
+        animals = Animal.objects.all()
+        messages.success(request, "Usuário tem permissão para ver todos os animais")
+    else:
+        animals = Animal.objects.filter(tutor=request.user)
+        messages.error(request, "Usuário não tem permissão para ver todos os animais")
     return render(request, 'pet_list.html', {'animals': animals})
 
-
-
 @login_required
+@has_permission_decorator('can_see_animal')
 def animal_profile(request, pk):
-    try:
-        animal = Animal.objects.get(id=pk)
-        return render(request, 'animal_profile.html', {'animal': animal})
-    except Animal.DoesNotExist:
-        messages.error(request, "Animal não encontrado.")
-        return redirect('home')
+    animal = get_object_or_404(Animal, id=pk)
+    return render(request, 'animal_profile.html', {'animal': animal})

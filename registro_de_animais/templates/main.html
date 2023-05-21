@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if animals %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Pets Cadastrados</h1>
+    <div class="row">
+        
+        {% for animal in animals %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <a href="{% url 'animal_profile' animal.id %}">
+                            {% if animal.ani_foto %}
+                                <img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="card-img-top zoom-image">
+                            {% else %}
+                                <img src="/media/default_pet_profile.png" alt="{{ animal.ani_nome }}" class="card-img-top zoom-image">
+                            {% endif %}
+                            <div class="zoom-overlay"></div>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Nome:</strong> {{ animal.ani_nome }}</h5>
+                        <p class="card-text"><strong>Tutor:</strong> {{ animal.tutor }}</p>
+                        
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div> 
+      <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
+  </div>
+</div>
+
+
+{% else %}
+
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        Não há animais cadastrados!
+    </div>
+    <div> 
+        <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
+    </div>
+</div>
+
+
+{% endif %}
+
+no animals
+
+{% endblock %}
