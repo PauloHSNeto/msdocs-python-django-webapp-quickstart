@@ -22,7 +22,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title"><strong>Nome:</strong> {{ animal.ani_nome }}</h5>
-                        <p class="card-text"><strong>Tutor:</strong> {{ animal.tutor }}</p>
+                        <p class="card-text"><strong>Tutor:</strong> {{ animal.tutor.first_name }} {{ animal.tutor.last_name }}</p>
                         
                     </div>
                 </div>
@@ -36,12 +36,12 @@
 
 
 {% else %}
-
+</br></br></br></br>
 <div class="container">
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Não há animais cadastrados!
-    </div>
-    <div> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
         <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
     </div>
 </div>
@@ -49,6 +49,6 @@
 
 {% endif %}
 
-no animals
+
 
 {% endblock %}

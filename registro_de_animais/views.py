@@ -8,28 +8,21 @@ from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_role_decorator, has_permission_decorator
 from .roles import Morador, Sindico
 from django.contrib.auth.models import User
-
+from rolepermissions.checkers import has_permission
 
 def home(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            messages.success(request, "Você está logado...")
-            return redirect('home')
-        else:
-            messages.success(request, "Houve um erro ao tentar logar... Tente novamente...")
-            return redirect('home')
+    if request.user.is_authenticated:
+        return redirect('main')
+    return render(request, 'home.html')
+
+
+@login_required
+def main(request):
+    if has_permission(request.user, 'can_see_all_animals'):
+        animals = Animal.objects.all()
     else:
-        if request.user.has_perm('can_see_all_animals'):
-            animals = Animal.objects.all()
-            messages.success(request, "Usuário tem permissão para ver todos os animais")
-        else:
-            animals = Animal.objects.filter(tutor=request.user)
-            messages.error(request, "Usuário não tem permissão para ver todos os animais")
-        return render(request, 'home.html', {'animals': animals})
+        animals = Animal.objects.filter(tutor=request.user)
+    return render(request, 'main.html', {'animals': animals})
 
 def login_user(request):
     if request.method == 'POST':
@@ -66,7 +59,26 @@ def register_user(request):
             login(request, user)
             
             messages.success(request, "Você foi registrado com sucesso. Bem-vindo!")
-            return redirect('home')
+            return redirect('main')
+    else:
+        form = SignUpForm()
+    
+    return render(request, 'register.html', {'form': form})
+
+def register_admin(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            assign_role(user, Sindico)
+            
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            
+            messages.success(request, "Você foi registrado com sucesso. Bem-vindo!")
+            return redirect('main')
     else:
         form = SignUpForm()
     
@@ -83,18 +95,23 @@ def delete_animal(request, pk):
 @login_required
 @has_permission_decorator('can_add_animal')
 def add_animal(request):
-    form = AddAnimalForm(request.POST, request.FILES or None)
-
     if request.method == "POST":
+        form = AddAnimalForm(request.POST, request.FILES)
         if form.is_valid():
-            animal = form.save(commit=False)
+            animal_data = form.cleaned_data
+            animal = Animal(**animal_data)
             animal.tutor = request.user
+            animal._request = request  # Define o atributo _request com o valor da requisição
             animal.save()
             messages.success(request, "Animal adicionado com sucesso")
             return redirect('animal_profile', pk=animal.pk)
         else:
             messages.error(request, "Formulário inválido")
+    else:
+        form = AddAnimalForm()
     return render(request, 'add_animal.html', {'form': form})
+
+
 
 @login_required
 @has_permission_decorator('can_update_animal')
@@ -102,24 +119,22 @@ def update_animal(request, pk):
     current_animal = get_object_or_404(Animal, id=pk)
 
     if request.method == 'POST':
-        form = UpdateAnimalForm(request.POST, request.FILES, instance=current_animal)
+        form = UpdateAnimalForm(request.POST, request.FILES, animal_instance=current_animal)
         if form.is_valid():
             form.save()
             messages.success(request, "Animal atualizado")
             return redirect('animal_profile', pk=pk)
     else:
-        form = UpdateAnimalForm(instance=current_animal)
+        form = UpdateAnimalForm(animal_instance=current_animal)
 
     return render(request, 'update_animal.html', {'form': form})
 
 @login_required
 def pet_list(request):
-    if request.user.has_perm('can_see_all_animals'):
+    if has_permission(request.user, 'can_see_all_animals'):
         animals = Animal.objects.all()
-        messages.success(request, "Usuário tem permissão para ver todos os animais")
     else:
         animals = Animal.objects.filter(tutor=request.user)
-        messages.error(request, "Usuário não tem permissão para ver todos os animais")
     return render(request, 'pet_list.html', {'animals': animals})
 
 @login_required
