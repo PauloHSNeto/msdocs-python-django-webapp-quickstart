@@ -9,6 +9,7 @@ from rolepermissions.decorators import has_role_decorator, has_permission_decora
 from .roles import Morador, Sindico
 from django.contrib.auth.models import User
 
+
 def home(request):
     if request.method == 'POST':
         username = request.POST['username']

@@ -3,15 +3,18 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container">
-            <a class="navbar-brand disabled" href="{% url 'home' %}">PetMedVida</a>
+            <a class="navbar-brand" href="{% url 'main' %}">PetMedVida</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ms-auto">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+              <ul class="navbar-nav">
+                <span class="navbar-text" style="font-weight: bold; font-size: 15px;">
+                  Bem-vindo, {{ request.user.username }}!&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp 
+                </span>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'home' %}">Ínicio</a>
+                  <a class="nav-link" href="{% url 'main' %}">Ínicio</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -23,19 +26,20 @@
                     <li><a class="dropdown-item" href="{% url 'pet_list' %}">Listar Pets</a></li>
                   </ul>
                 </li>
-                {% comment %} <li class="nav-item">
-                  <a class="nav-link" href="#">Meu Perfil</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Contato</a>
-                </li> {% endcomment %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
               </ul>
+
             </div>
           </div>
         </nav>
+        
+        
+        
+        
+        
+        
 
         {% else %}
 

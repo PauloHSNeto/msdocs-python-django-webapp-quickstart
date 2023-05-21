@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Animal(models.Model):
-    tutor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pets')
+    tutor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pets', blank=True, null=True)
     ani_nome = models.CharField(max_length=50, default='não informado')
     ani_raça = models.CharField(max_length=50, default='não informado')
     ani_espec = models.CharField(max_length=50, default='não informado')

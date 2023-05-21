@@ -4,106 +4,6 @@
 
 
 
-{% if user.is_authenticated %}
-
-<!--INÍCIO DO BLOCO DE CÓDIGO CASO USUÁRIO ESTEJA LOGADO-->
-
-{% block styles %}
-<script>
-  $(document).ready(function() {
-      $('.zoom-image').hover(function() {
-          $(this).addClass('zoomed');
-      }, function() {
-          $(this).removeClass('zoomed');
-      });
-  });
-  </script>
-
-<style>
-  .card-img-wrapper {
-    overflow: hidden;
-    position: relative;
-}
-
-.zoom-image {
-    transition: transform 0.6s ease-in-out;
-}
-
-.zoomed {
-    transform: scale(1.5);
-}
-
-.zoom-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.card-img-wrapper:hover .zoom-overlay {
-    opacity: 1;
-}
-</style>
-
-
-{% endblock %}
-
-
-
-{% if animal %}
-<div class="container">
-    <h1 class="mt-4 mb-4">Pets Cadastrados</h1>
-    <div class="row">
-        {% for animal in animal %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <a href="{% url 'animal_profile' animal.id %}">
-                            {% if animal.ani_foto %}
-                                <img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="card-img-top zoom-image">
-                            {% else %}
-                                <img src="/media/default_pet_profile.png" alt="{{ animal.ani_nome }}" class="card-img-top zoom-image">
-                            {% endif %}
-                            <div class="zoom-overlay"></div>
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title"><strong>Nome:</strong> {{ animal.ani_nome }}</h5>
-                        <p class="card-text"><strong>Tutor:</strong> {{ animal.tutor }}</p>
-                        
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-    <div> 
-      <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
-  </div>
-</div>
-
-
-{% else %}
-
-<div class="container">
-    <div class="alert alert-danger" role="alert">
-        Não há animais cadastrados!
-    </div>
-    <div> 
-        <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
-    </div>
-</div>
-{% endif %}
-
-<!--FIM DO BLOCO DE CÓDIGO CASO USUÁRIO ESTEJA LOGADO-->
-
-{% else %}
-
-<!--INÍCIO BLOCO DE CÓDIGO CASO USUÁRIO NÃO ESTEJA LOGADO-->
-
     <!-- Imagem de fundo -->
     <div class="bg-image">
       <img class="img-fluid" src="https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Imagem de um cachorro">
@@ -122,7 +22,5 @@
         </section>
 
 
-
-{% endif %}
 
 {% endblock %}
