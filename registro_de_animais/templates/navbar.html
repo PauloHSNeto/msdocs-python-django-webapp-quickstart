@@ -11,7 +11,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
               <ul class="navbar-nav">
                 <span class="navbar-text" style="font-weight: bold; font-size: 15px;">
-                  Bem-vindo, {{ request.user.username }}!&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp 
+                  Bem-vindo, {{ request.user.first_name }}!&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp 
                 </span>
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'main' %}">Ínicio</a>
@@ -58,6 +58,10 @@
                   <a class="nav-link" href="{% url 'register' %}">Cadastre-se</a>
                 </li>
                 <li class="nav-item">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register_admin' %}">Cadastre-se como admin</a>
+                  </li>
+                  <li class="nav-item">
                   <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li> 
                 {% comment %} <li class="nav-item">
