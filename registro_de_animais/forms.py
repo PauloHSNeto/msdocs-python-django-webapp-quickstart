@@ -161,7 +161,7 @@ class AddAnimalForm(forms.Form):
     
     ani_obs = forms.CharField(
         label='Observações',
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}),
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 9, 'blank': True}),
         required=False,
         max_length=1000
     )
@@ -320,7 +320,7 @@ class UpdateAnimalForm(forms.Form):
     
     ani_obs = forms.CharField(
         label='Observações',
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}),
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 9, 'blank': True}),
         required=False,
         max_length=1000
     )
