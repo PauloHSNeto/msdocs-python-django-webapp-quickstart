@@ -190,7 +190,6 @@ class UpdateAnimalForm(forms.Form):
         self.animal_instance.ani_sexo = self.cleaned_data['ani_sexo']
         self.animal_instance.ani_porte = self.cleaned_data['ani_porte']
         self.animal_instance.ani_dnasc = self.cleaned_data['ani_dnasc']
-        self.animal_instance.ani_foto = self.cleaned_data['ani_foto']
         self.animal_instance.ani_rga = self.cleaned_data['ani_rga']
         self.animal_instance.ani_anilha = self.cleaned_data['ani_anilha']
         self.animal_instance.ani_nmchip = self.cleaned_data['ani_nmchip']
@@ -198,6 +197,16 @@ class UpdateAnimalForm(forms.Form):
         self.animal_instance.ani_vacinado = self.cleaned_data['ani_vacinado']
         self.animal_instance.ani_vermifugado = self.cleaned_data['ani_vermifugado']
         self.animal_instance.ani_obs = self.cleaned_data['ani_obs']
+
+        # Verifica se um novo arquivo de foto foi fornecido
+        if 'ani_foto' in self.files:
+            new_photo = self.files['ani_foto']
+            self.animal_instance.ani_foto.save(
+                new_photo.name,
+                new_photo,
+                save=False
+            )
+
         self.animal_instance.save()
 
     def _get_current_user(self):
