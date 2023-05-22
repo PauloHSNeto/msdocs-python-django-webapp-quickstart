@@ -21,7 +21,7 @@ class Animal(models.Model):
     data_cadastro = models.DateField(auto_now_add=True, blank=True, null=True)
     ani_vacinado = models.BooleanField(blank=True, null=True)
     ani_vermifugado = models.BooleanField(blank=True, null=True)
-    ani_obs = models.CharField(max_length=200, default='não informado', blank=True, null=True)
+    ani_obs = models.CharField(max_length=1000, default='não informado', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:  # Se o objeto ainda não foi salvo no banco de dados
