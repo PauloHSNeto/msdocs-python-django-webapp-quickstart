@@ -108,6 +108,8 @@ def add_animal(request):
             animal = Animal(**animal_data)
             animal.tutor = request.user
             animal._request = request  # Define o atributo _request com o valor da requisição
+            imagem_binaria = request.FILES['foto'].read()
+            animal.foto = imagem_binaria
             animal.save()
             messages.success(request, "Animal adicionado com sucesso")
             return redirect('animal_profile', pk=animal.pk)
