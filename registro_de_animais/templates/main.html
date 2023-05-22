@@ -2,7 +2,27 @@
 
 {% block content %}
 
+{% block styles %}
+
+<style>
+    .card-img-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-img-wrapper img {
+        transition: transform 0.3s;
+    }
+
+    .card-img-wrapper:hover img {
+        transform: scale(1.2);
+    }
+</style>
+
+{% endblock %}
+
 {% if animals %}
+
 <div class="container">
     <h1 class="mt-4 mb-4">Pets Cadastrados</h1>
     <div class="row">
@@ -13,27 +33,39 @@
                     <div class="card-img-wrapper">
                         <a href="{% url 'animal_profile' animal.id %}">
                             {% if animal.ani_foto %}
-                                <img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="card-img-top zoom-image">
+                                <div class="image-wrapper">
+                                    <img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="card-img-top">
+                                </div>
                             {% else %}
-                                <img src="/media/default_pet_profile.png" alt="{{ animal.ani_nome }}" class="card-img-top zoom-image">
+                                <div class="image-wrapper">
+                                    <img src="/media/default_pet_profile.png" alt="{{ animal.ani_nome }}" class="card-img-top">
+                                </div>
                             {% endif %}
-                            <div class="zoom-overlay"></div>
                         </a>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title"><strong>Nome:</strong> {{ animal.ani_nome }}</h5>
                         <p class="card-text"><strong>Tutor:</strong> {{ animal.tutor.first_name }} {{ animal.tutor.last_name }}</p>
-                        
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
     <div> 
-      <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
-  </div>
+        <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
+    </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".card-img-wrapper").hover(function() {
+            $(this).find("img").css("transform", "scale(1.2)");
+        }, function() {
+            $(this).find("img").css("transform", "scale(1)");
+        });
+    });
+</script>
 
 {% else %}
 </br></br></br></br>
@@ -41,14 +73,13 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Não há animais cadastrados!
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-        <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
     </div>
+    <a href="{% url 'add_animal' %}" class="btn btn-dark">Cadastrar novo pet</a>
 </div>
-
+</div>
 
 {% endif %}
 
-
-
 {% endblock %}
+
+    
