@@ -9,6 +9,7 @@ from rolepermissions.decorators import has_role_decorator, has_permission_decora
 from .roles import Morador, Sindico
 from django.contrib.auth.models import User
 from rolepermissions.checkers import has_permission
+from rolepermissions.checkers import has_role
 
 def home(request):
     if request.user.is_authenticated:
@@ -88,9 +89,14 @@ def register_admin(request):
 @has_permission_decorator('can_delete_animal')
 def delete_animal(request, pk):
     delete_it = get_object_or_404(Animal, id=pk)
-    delete_it.delete()
-    messages.success(request, "Animal deletado com sucesso!")
-    return redirect('home')
+
+    if has_role(request.user, 'sindico') or delete_it.tutor == request.user:
+        delete_it.delete()
+        messages.success(request, "Animal deletado com sucesso!")
+        return redirect('home')
+    else:
+        messages.error(request, "Você não tem permissão para excluir este animal.")
+        return redirect('home')
 
 @login_required
 @has_permission_decorator('can_add_animal')
@@ -118,16 +124,20 @@ def add_animal(request):
 def update_animal(request, pk):
     current_animal = get_object_or_404(Animal, id=pk)
 
-    if request.method == 'POST':
-        form = UpdateAnimalForm(request.POST, request.FILES, animal_instance=current_animal)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Animal atualizado")
-            return redirect('animal_profile', pk=pk)
-    else:
-        form = UpdateAnimalForm(animal_instance=current_animal)
+    if has_role(request.user, 'sindico') or current_animal.tutor == request.user:
+        if request.method == 'POST':
+            form = UpdateAnimalForm(request.POST, request.FILES, animal_instance=current_animal)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Animal atualizado")
+                return redirect('animal_profile', pk=pk)
+        else:
+            form = UpdateAnimalForm(animal_instance=current_animal)
 
-    return render(request, 'update_animal.html', {'form': form})
+        return render(request, 'update_animal.html', {'form': form})
+    else:
+        messages.error(request, "Você não tem permissão para atualizar este animal.")
+        return redirect('home')
 
 @login_required
 def pet_list(request):
@@ -141,4 +151,9 @@ def pet_list(request):
 @has_permission_decorator('can_see_animal')
 def animal_profile(request, pk):
     animal = get_object_or_404(Animal, id=pk)
-    return render(request, 'animal_profile.html', {'animal': animal})
+    if has_role(request.user, 'sindico') or animal.tutor == request.user:
+        return render(request, 'animal_profile.html', {'animal': animal})
+    else:
+        messages.error(request, "Você não tem permissão para ver este animal")
+        return redirect('home')
+
