@@ -66,22 +66,105 @@ class AddAnimalForm(forms.Form):
         ('Grande', 'Grande'),
     ]
     
-    ani_nome = forms.CharField(label='Nome do animal', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    ani_raça = forms.CharField(label='Raça do animal', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    ani_cor = forms.CharField(label='Cor da pelagem ou plumagem', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    ani_castr = forms.ChoiceField(choices=CASTRADO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Castrado')
-    ani_espec = forms.ChoiceField(choices=ESPECIE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Espécie')
-    ani_sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Sexo')
-    ani_porte = forms.ChoiceField(choices=PORTE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Porte')
-    ani_dnasc = forms.DateField(widget=forms.TextInput(attrs={'class': 'form-control datepicker'}), label='Data de nascimento do animal', required=False)
-    ani_foto = forms.FileField(label='Fotografia do animal', widget=forms.FileInput(attrs={'multiple': False, 'class': 'form-control', 'blank': True}), required=False)
-    ani_rga = forms.CharField(label='Registro Geral', widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_anilha = forms.CharField(label='Número de identificação da anilha (no caso de aves)', widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_nmchip = forms.CharField(label='Número de identificação do microchip (se houver)', widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_idade = forms.IntegerField(label='Idade do animal em anos', widget=forms.NumberInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_vacinado = forms.BooleanField(label='Vacinado', widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
-    ani_vermifugado = forms.BooleanField(label='Vermifugado', widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
-    ani_obs = forms.CharField(label='Observações', widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}), required=False)
+    ani_nome = forms.CharField(
+        label='Nome do animal',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50
+    )
+    
+    ani_raça = forms.CharField(
+        label='Raça do animal',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50
+    )
+    
+    ani_cor = forms.CharField(
+        label='Cor da pelagem ou plumagem',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50
+    )
+    
+    ani_castr = forms.ChoiceField(
+        choices=CASTRADO_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Castrado'
+    )
+    
+    ani_espec = forms.ChoiceField(
+        choices=ESPECIE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Espécie'
+    )
+    
+    ani_sexo = forms.ChoiceField(
+        choices=SEXO_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Sexo'
+    )
+    
+    ani_porte = forms.ChoiceField(
+        choices=PORTE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Porte'
+    )
+    
+    ani_dnasc = forms.DateField(
+        widget=forms.TextInput(attrs={'class': 'form-control datepicker'}),
+        label='Data de nascimento do animal',
+        required=False
+    )
+    
+    ani_foto = forms.FileField(
+        label='Fotografia do animal',
+        widget=forms.FileInput(attrs={'multiple': False, 'class': 'form-control', 'blank': True}),
+        required=False
+    )
+    
+    ani_rga = forms.CharField(
+        label='Registro Geral',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False,
+        max_length=50
+    )
+    
+    ani_anilha = forms.CharField(
+        label='Número de identificação da anilha (no caso de aves)',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False,
+        max_length=50
+    )
+    
+    ani_nmchip = forms.CharField(
+        label='Número de identificação do microchip (se houver)',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False,
+        max_length=50
+    )
+    
+    ani_idade = forms.IntegerField(
+        label='Idade do animal em anos',
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False
+    )
+    
+    ani_vacinado = forms.BooleanField(
+        label='Vacinado',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        required=False
+    )
+    
+    ani_vermifugado = forms.BooleanField(
+        label='Vermifugado',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        required=False
+    )
+    
+    ani_obs = forms.CharField(
+        label='Observações',
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}),
+        required=False,
+        max_length=1000
+    )
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -115,6 +198,7 @@ class AddAnimalForm(forms.Form):
         return None
 
 
+
 class UpdateAnimalForm(forms.Form):
     CASTRADO_CHOICES = [
         ('Sim', 'Sim'),
@@ -141,22 +225,105 @@ class UpdateAnimalForm(forms.Form):
         ('Grande', 'Grande'),
     ]
     
-    ani_nome = forms.CharField(label='Nome do animal', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    ani_raça = forms.CharField(label='Raça do animal', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    ani_cor = forms.CharField(label='Cor da pelagem ou plumagem', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    ani_castr = forms.ChoiceField(choices=CASTRADO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Castrado')
-    ani_espec = forms.ChoiceField(choices=ESPECIE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Espécie')
-    ani_sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Sexo')
-    ani_porte = forms.ChoiceField(choices=PORTE_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Porte')
-    ani_dnasc = forms.DateField(widget=forms.TextInput(attrs={'class': 'form-control datepicker'}), label='Data de nascimento do animal', required=False)
-    ani_foto = forms.FileField(label='Fotografia do animal', widget=forms.FileInput(attrs={'multiple': False, 'class': 'form-control', 'blank': True}), required=False)
-    ani_rga = forms.CharField(label='Registro Geral', widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_anilha = forms.CharField(label='Número de identificação da anilha (no caso de aves)', widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_nmchip = forms.CharField(label='Número de identificação do microchip (se houver)', widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_idade = forms.IntegerField(label='Idade do animal em anos', widget=forms.NumberInput(attrs={'class': 'form-control', 'blank': True}), required=False)
-    ani_vacinado = forms.BooleanField(label='Vacinado', widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
-    ani_vermifugado = forms.BooleanField(label='Vermifugado', widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False)
-    ani_obs = forms.CharField(label='Observações', widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}), required=False)
+    ani_nome = forms.CharField(
+        label='Nome do animal',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50
+    )
+    
+    ani_raça = forms.CharField(
+        label='Raça do animal',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50
+    )
+    
+    ani_cor = forms.CharField(
+        label='Cor da pelagem ou plumagem',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50
+    )
+    
+    ani_castr = forms.ChoiceField(
+        choices=CASTRADO_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Castrado'
+    )
+    
+    ani_espec = forms.ChoiceField(
+        choices=ESPECIE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Espécie'
+    )
+    
+    ani_sexo = forms.ChoiceField(
+        choices=SEXO_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Sexo'
+    )
+    
+    ani_porte = forms.ChoiceField(
+        choices=PORTE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label='Porte'
+    )
+    
+    ani_dnasc = forms.DateField(
+        widget=forms.TextInput(attrs={'class': 'form-control datepicker'}),
+        label='Data de nascimento do animal',
+        required=False
+    )
+    
+    ani_foto = forms.FileField(
+        label='Fotografia do animal',
+        widget=forms.FileInput(attrs={'multiple': False, 'class': 'form-control', 'blank': True}),
+        required=False
+    )
+    
+    ani_rga = forms.CharField(
+        label='Registro Geral',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False,
+        max_length=50
+    )
+    
+    ani_anilha = forms.CharField(
+        label='Número de identificação da anilha (no caso de aves)',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False,
+        max_length=50
+    )
+    
+    ani_nmchip = forms.CharField(
+        label='Número de identificação do microchip (se houver)',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False,
+        max_length=50
+    )
+    
+    ani_idade = forms.IntegerField(
+        label='Idade do animal em anos',
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'blank': True}),
+        required=False
+    )
+    
+    ani_vacinado = forms.BooleanField(
+        label='Vacinado',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        required=False
+    )
+    
+    ani_vermifugado = forms.BooleanField(
+        label='Vermifugado',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        required=False
+    )
+    
+    ani_obs = forms.CharField(
+        label='Observações',
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'blank': True}),
+        required=False,
+        max_length=1000
+    )
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
