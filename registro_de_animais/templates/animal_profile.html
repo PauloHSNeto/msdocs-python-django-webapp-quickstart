@@ -44,7 +44,7 @@
 <div class="pet-profile card">
   <div class="row table-responsive card-body">
     <div class="col-md-4 text-center">
-      {% if animal.ani_foto %}
+      {% if animal.ani_foto.url %}
       <img
         src="{{ animal.ani_foto.url }}"
         class="img-fluid"
