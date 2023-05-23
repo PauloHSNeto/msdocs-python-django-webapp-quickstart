@@ -32,7 +32,7 @@
                 <tr>
                     <td>
                         {% if animal.ani_foto %}
-                        <a href="{% url 'animal_profile' animal.id %}"><img src="data:image/png;base64,{{ animal.ani_foto|base64 }}" alt="Foto do Animal" class="rounded-circle img-fluid" style="width: 80px; height: 80px;"></a>
+                        <a href="{% url 'animal_profile' animal.id %}"><img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle img-fluid" style="width: 80px; height: 80px;"></a>
                         {% else %}
                         <a href="{% url 'animal_profile' animal.id %}"><img src="/media/default_pet_profile.png" class="rounded-circle img-fluid" alt="{{ animal.ani_nome }}" style="width: 80px; height: 80px;"></a>
                         {% endif %}

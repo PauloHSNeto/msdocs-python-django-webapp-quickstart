@@ -46,7 +46,7 @@
     <div class="col-md-4 text-center">
       {% if animal.ani_foto %}
       <img
-        src="data:image/png;base64,{{ animal.ani_foto|base64 }}"
+        src="{{ animal.ani_foto.url }}"
         class="img-fluid"
         alt="{{ animal.ani_nome }}"
       />
