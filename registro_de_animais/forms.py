@@ -368,11 +368,7 @@ class UpdateAnimalForm(forms.Form):
         # Verifica se um novo arquivo de foto foi fornecido
         if 'ani_foto' in self.files:
             new_photo = self.files['ani_foto']
-            self.animal_instance.ani_foto.save(
-                new_photo.name,
-                new_photo,
-                save=False
-            )
+            self.animal_instance.ani_foto = new_photo
 
         self.animal_instance.save()
 

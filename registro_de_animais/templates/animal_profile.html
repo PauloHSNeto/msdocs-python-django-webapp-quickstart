@@ -1,64 +1,78 @@
-{% extends 'base.html' %}
-
-{% block styles %}
+{% extends 'base.html' %} {% block styles %}
 <style>
-.pet-profile {
+  .pet-profile {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #EAEEE6;
+    background-color: #eaeee6;
     border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.pet-profile img {
+  }
+  .pet-profile img {
     max-width: 100%;
     height: auto;
     border: 2px solid rgba(0, 0, 0, 0.3);
     border-radius: 500px;
     margin-bottom: 20px;
-}    
-.pet-profile h2 {
+  }
+  .pet-profile h2 {
     font-size: 40px;
     font-weight: bold;
     margin-bottom: 10px;
-}
-.pet-profile p {
+  }
+  .pet-profile p {
     margin-bottom: 10px;
     font-size: 20px;
-}
-      
-.full-width {
-    width: 100%;
-}
+  }
 
-.title {
+  .full-width {
+    width: 100%;
+  }
+
+  .title {
     word-wrap: break-word;
-}
+  }
 
-.observations {
+  .observations {
     width: 100%;
+
 }
 
 .btn-green {
   background-color: rgb(15, 68, 15);
 }
+
+
 </style>
-{% endblock %}
+{% endblock %} {% block content %}
 
-{% block content %}
-
-<BR/>
+<br />
 
 <div class="pet-profile card">
   <div class="row table-responsive card-body">
     <div class="col-md-4 text-center">
-      <img src="{% if animal.ani_foto %}{{ animal.ani_foto.url }}{% else %}/media/default_pet_profile.png{% endif %}" class="img-fluid" alt="{{ animal.ani_nome }}">
+      {% if animal.ani_foto.url %}
+      <img
+        src="{{ animal.ani_foto.url }}"
+        class="img-fluid"
+        alt="{{ animal.ani_nome }}"
+      />
+      {% else %}
+      <img
+        src="/media/default_pet_profile.png"
+        class="img-fluid"
+        alt="{{ animal.ani_nome }}"
+      />
+      {% endif %}
     </div>
     <div class="col-md-8">
       <h2 class="title">{{ animal.ani_nome }}</h2>
       <div class="row">
         <div class="col-md-6">
-          <p><strong>Tutor:</strong>{{ animal.tutor.first_name }} {{ animal.tutor.last_name }}</p>
+          <p>
+            <strong>Tutor:</strong>{{ animal.tutor.first_name }} {{
+            animal.tutor.last_name }}
+          </p>
           <p><strong>Raça:</strong> {{ animal.ani_raça }}</p>
           <p><strong>Espécie:</strong> {{ animal.ani_espec }}</p>
           <p><strong>Sexo:</strong> {{ animal.ani_sexo }}</p>
@@ -71,8 +85,18 @@
           <p><strong>Data de Nascimento:</strong> {{ animal.ani_dnasc }}</p>
           <p><strong>Idade:</strong> {{ animal.ani_idade }}</p>
           <p><strong>Data de Cadastro:</strong> {{ animal.data_cadastro }}</p>
-          <p><strong>Vacinado:</strong> {% if animal.ani_vacinado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</p>
-          <p><strong>Vermifugado:</strong> {% if animal.ani_vermifugado %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</p>
+          <p>
+            <strong>Vacinado:</strong> {% if animal.ani_vacinado %}<i
+              class="fas fa-check"
+            ></i
+            >{% else %}<i class="fas fa-times"></i>{% endif %}
+          </p>
+          <p>
+            <strong>Vermifugado:</strong> {% if animal.ani_vermifugado %}<i
+              class="fas fa-check"
+            ></i
+            >{% else %}<i class="fas fa-times"></i>{% endif %}
+          </p>
           <p><strong>Castrado:</strong> {{animal.ani_castr}}</p>
           <p><strong>Microchip:</strong> {{ animal.ani_nmchip }}</p>
         </div>
@@ -81,17 +105,19 @@
       </div> <p></p> <p></p>
       <p><strong>Observações:</strong></p>
         <div class="observations">
-            <p>{{ animal.ani_obs }}</p>
-          </div>
-
+          <p>{{ animal.ani_obs }}</p>
+        </div>
       </div>
-    </div>          
-    
+    </div>
   </div>
   <div class="btn-group" role="group" aria-label="Basic outlined example">
     <a href="{% url 'pet_list' %}" class="btn btn-secondary">Voltar</a>
-    <a href="{% url 'update_animal' animal.id %}" class="btn btn-dark">Editar</a>
-    <a href="{% url 'delete_animal' animal.id %}" class="btn btn-danger">Excluir</a>
+    <a href="{% url 'update_animal' animal.id %}" class="btn btn-dark"
+      >Editar</a
+    >
+    <a href="{% url 'delete_animal' animal.id %}" class="btn btn-danger"
+      >Excluir</a
+    >
   </div>
 </div>
 

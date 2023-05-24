@@ -32,7 +32,7 @@
                 <div class="card">
                     <div class="card-img-wrapper">
                         <a href="{% url 'animal_profile' animal.id %}">
-                            {% if animal.ani_foto %}
+                            {% if animal.ani_foto.url %}
                                 <div class="image-wrapper">
                                     <img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="card-img-top">
                                 </div>

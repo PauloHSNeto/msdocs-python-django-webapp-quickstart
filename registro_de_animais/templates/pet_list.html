@@ -31,7 +31,7 @@
             {% for animal in animals %}
                 <tr>
                     <td>
-                        {% if animal.ani_foto %}
+                        {% if animal.ani_foto.url %}
                         <a href="{% url 'animal_profile' animal.id %}"><img src="{{ animal.ani_foto.url }}" alt="Foto do Animal" class="rounded-circle img-fluid" style="width: 80px; height: 80px;"></a>
                         {% else %}
                         <a href="{% url 'animal_profile' animal.id %}"><img src="/media/default_pet_profile.png" class="rounded-circle img-fluid" alt="{{ animal.ani_nome }}" style="width: 80px; height: 80px;"></a>

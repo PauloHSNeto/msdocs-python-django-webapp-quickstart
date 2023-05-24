@@ -45,9 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registro_de_animais',
     'rolepermissions',
-    
-
-
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -158,3 +156,9 @@ MEDIA_URL = r'/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ROLEPERMISSIONS_MODULE = 'registro_de_animais.roles'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+
+AZURE_ACCOUNT_NAME = 'petmedvidastorage'
+AZURE_ACCOUNT_KEY = 'hektiopqIovp1q4sz8wfPHX3TghKOv5sYiKeIRNOwVBm6LYGAMIH9tGCd761wyroDf9S6BT8x9/1+ASt2YdS5g=='
+AZURE_CONTAINER = 'fotosdepets'
