@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+.btn-green {
+    background-color: rgb(15, 68, 15);
+  }
+
+</style>
+{% if animal %}
+<div class="container">
+    <h1 class="mt-4 mb-4 text-center">Histórico veterinário de {{ animal.ani_nome }} </h1>    
+    
+    <div class="d-flex mb-4 row">
+        <div class='col-md-6'>
+        <a href="{% url 'animal_profile' animal.id %}" class="btn btn-dark">Voltar</a>
+        &nbsp&nbsp&nbsp&nbsp
+        <a href="{% url 'add_vacina' animal.id %}" class="btn btn-success btn-green">Cadastrar Vacina/Vermífugo/Exame</a>
+        </div>
+    </div>
+
+    {% if animal.vacinas.all %}
+    <table id="vacinaTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Tipo de Medicamento/Exame</th>
+                <th>Data de aplicação/exame</th>
+                <th>Validade</th>
+                <th>Dose</th>
+                <th>Fabricante/Laboratório</th>
+                <th>Anexo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vacina in animal.vacinas.all %}
+                <tr>
+                    <td>{{ vacina.vac_nome }}</td>
+                    <td>{{ vacina.vac_tipo }}</td>
+                    <td>{{ vacina.vac_data_admin }}</td>
+                    <td>{{ vacina.vac_validade }}</td>
+                    <td>{{ vacina.vac_num_dose }}</td>
+                    <td>{{ vacina.vac_fabricante }}</td>
+                    <td>
+                        {% if vacina.vac_anexo %}
+                            <a href="{{ vacina.vac_anexo.url }}" target="_blank">Abrir Anexo</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'update_vacina' vacina.vac_id %}" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="{% url 'delete_vacina' vacina.vac_id %}" class="btn btn-sm btn-danger">Deletar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Adicione as referências aos arquivos JavaScript e CSS do DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+
+    <script>
+    $(document).ready(function() {
+        $('#vacinaTable').DataTable();
+    });
+    </script>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        Este animal não possui vacinas cadastradas.
+    </div>
+    {% endif %}
+</div>
+
+{% else %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        Animal não encontrado.
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+

@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddAnimalForm, UpdateAnimalForm
+from .forms import SignUpForm, AddAnimalForm, UpdateAnimalForm, AddVacinaForm, UpdateVacinaForm
 from .models.animais import Animal
+from .models.vacinas import Vacina
 from django.contrib.auth.decorators import login_required
 from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_role_decorator, has_permission_decorator
@@ -10,6 +11,8 @@ from .roles import Morador, Sindico
 from django.contrib.auth.models import User
 from rolepermissions.checkers import has_permission
 from rolepermissions.checkers import has_role
+from django.urls import reverse
+from datetime import datetime, date
 
 def home(request):
     if request.user.is_authenticated:
@@ -157,3 +160,72 @@ def animal_profile(request, pk):
         messages.error(request, "Você não tem permissão para ver este animal")
         return redirect('home')
 
+@login_required
+@has_permission_decorator('can_see_animal')
+def add_vacina(request, pk):
+    animal = get_object_or_404(Animal, id=pk)
+
+    if has_role(request.user, 'sindico') or animal.tutor == request.user:
+        if request.method == 'POST':
+            form = AddVacinaForm(request.POST, request.FILES)
+            if form.is_valid():
+                vacina = form.save(commit=False)
+                vacina.animal = animal
+                vacina.save()
+                messages.success(request, "Vacina adicionada com sucesso")
+                return redirect('animal_profile', pk=pk)
+        else:
+            form = AddVacinaForm()
+        return render(request, 'add_vacina.html', {'animal': animal, 'form': form})
+    else:
+        messages.error(request, "Você não tem permissão para ver este animal")
+        return redirect('home')
+
+@login_required
+@has_permission_decorator('can_see_animal')
+def vacinas_list(request, pk):
+    animal = get_object_or_404(Animal, id=pk)
+    
+    if has_role(request.user, 'sindico') or animal.tutor == request.user:
+        vacinas = animal.vacinas.all()
+        return render(request, 'vacinas_list.html', {'animal': animal, 'vacinas': vacinas})
+    else:
+        messages.error(request, "Você não tem permissão para ver as vacinas deste animal")
+        return redirect('home')
+    
+@login_required
+@has_permission_decorator('can_update_animal')
+def update_vacina(request, pk):
+    current_vacina = get_object_or_404(Vacina, vac_id=pk)
+
+    if has_role(request.user, 'sindico') or current_vacina.animal.tutor == request.user:
+        if request.method == 'POST':
+            form = UpdateVacinaForm(request.POST, request.FILES, instance=current_vacina)
+            if form.is_valid():
+                vacina = form.save(commit=False)
+                if not form.cleaned_data['vac_anexo']:
+                    vacina.vac_anexo = current_vacina.vac_anexo
+                vacina.save()
+                messages.success(request, "Vacina atualizada")
+                return redirect(reverse('vacinas_list', kwargs={'pk': current_vacina.animal.id}))
+        else:
+            form = UpdateVacinaForm(instance=current_vacina)
+
+        return render(request, 'update_vacina.html', {'form': form, 'current_vacina': current_vacina})
+    else:
+        messages.error(request, "Você não tem permissão para atualizar esta vacina.")
+        return redirect('home')
+
+    
+@login_required
+@has_permission_decorator('can_delete_animal')
+def delete_vacina(request, pk):
+    current_vacina = get_object_or_404(Vacina, vac_id=pk)
+
+    if has_role(request.user, 'sindico') or current_vacina.animal.tutor == request.user:
+        current_vacina.delete()
+        messages.success(request, "Vacina excluída")
+        return redirect('vacinas_list', pk=current_vacina.animal.id)
+    else:
+        messages.error(request, "Você não tem permissão para excluir esta vacina.")
+        return redirect('vacinas_list', pk=current_vacina.animal.id)
