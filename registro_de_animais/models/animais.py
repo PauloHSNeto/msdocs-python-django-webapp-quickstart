@@ -12,6 +12,7 @@ class Animal(models.Model):
     ani_cor = models.CharField(max_length=50, default='não informado')
     ani_foto = models.ImageField(blank=True, null=True, upload_to='pet_profile_pics', default='')
     ani_porte = models.CharField(max_length=50, default='não informado')
+    ani_peso = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     ani_rga = models.CharField(max_length=50, blank=True, null=True)
     ani_castr = models.CharField(max_length=50, default='Não sei')
     ani_anilha = models.CharField(max_length=50, default='não informado', blank=True, null=True)
@@ -19,8 +20,6 @@ class Animal(models.Model):
     ani_dnasc = models.DateField(blank=True, null=True)
     ani_idade = models.IntegerField(blank=True, null=True)
     data_cadastro = models.DateField(auto_now_add=True, blank=True, null=True)
-    ani_vacinado = models.BooleanField(blank=True, null=True)
-    ani_vermifugado = models.BooleanField(blank=True, null=True)
     ani_obs = models.CharField(max_length=1000, default='não informado', blank=True, null=True)
 
     def save(self, *args, **kwargs):

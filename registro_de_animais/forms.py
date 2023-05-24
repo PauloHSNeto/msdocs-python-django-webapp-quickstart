@@ -108,6 +108,13 @@ class AddAnimalForm(forms.Form):
         label='Porte'
     )
     
+    ani_peso = forms.CharField(
+        label='Peso do animal',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=10,
+        required=False
+    )
+    
     ani_dnasc = forms.DateField(
         widget=forms.TextInput(attrs={'class': 'form-control datepicker'}),
         label='Data de nascimento do animal',
@@ -147,18 +154,6 @@ class AddAnimalForm(forms.Form):
         required=False
     )
     
-    ani_vacinado = forms.BooleanField(
-        label='Vacinado',
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        required=False
-    )
-    
-    ani_vermifugado = forms.BooleanField(
-        label='Vermifugado',
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        required=False
-    )
-    
     ani_obs = forms.CharField(
         label='Observações',
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 9, 'blank': True}),
@@ -180,14 +175,13 @@ class AddAnimalForm(forms.Form):
             ani_espec=self.cleaned_data['ani_espec'],
             ani_sexo=self.cleaned_data['ani_sexo'],
             ani_porte=self.cleaned_data['ani_porte'],
+            ani_peso=self.cleaned_data['ani_peso'],
             ani_dnasc=self.cleaned_data['ani_dnasc'],
             ani_foto=self.cleaned_data['ani_foto'],
             ani_rga=self.cleaned_data['ani_rga'],
             ani_anilha=self.cleaned_data['ani_anilha'],
             ani_nmchip=self.cleaned_data['ani_nmchip'],
             ani_idade=self.cleaned_data['ani_idade'],
-            ani_vacinado=self.cleaned_data['ani_vacinado'],
-            ani_vermifugado=self.cleaned_data['ani_vermifugado'],
             ani_obs=self.cleaned_data['ani_obs'],
         )
         animal.save()
@@ -267,6 +261,13 @@ class UpdateAnimalForm(forms.Form):
         label='Porte'
     )
     
+    ani_peso = forms.CharField(
+        label='Peso do animal',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=10,
+        required=False
+    )
+    
     ani_dnasc = forms.DateField(
         widget=forms.TextInput(attrs={'class': 'form-control datepicker'}),
         label='Data de nascimento do animal',
@@ -306,18 +307,6 @@ class UpdateAnimalForm(forms.Form):
         required=False
     )
     
-    ani_vacinado = forms.BooleanField(
-        label='Vacinado',
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        required=False
-    )
-    
-    ani_vermifugado = forms.BooleanField(
-        label='Vermifugado',
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        required=False
-    )
-    
     ani_obs = forms.CharField(
         label='Observações',
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 9, 'blank': True}),
@@ -339,13 +328,12 @@ class UpdateAnimalForm(forms.Form):
         self.fields['ani_espec'].initial = self.animal_instance.ani_espec
         self.fields['ani_sexo'].initial = self.animal_instance.ani_sexo
         self.fields['ani_porte'].initial = self.animal_instance.ani_porte
+        self.fields['ani_peso'].initial = self.animal_instance.ani_peso
         self.fields['ani_dnasc'].initial = self.animal_instance.ani_dnasc
         self.fields['ani_rga'].initial = self.animal_instance.ani_rga
         self.fields['ani_anilha'].initial = self.animal_instance.ani_anilha
         self.fields['ani_nmchip'].initial = self.animal_instance.ani_nmchip
         self.fields['ani_idade'].initial = self.animal_instance.ani_idade
-        self.fields['ani_vacinado'].initial = self.animal_instance.ani_vacinado
-        self.fields['ani_vermifugado'].initial = self.animal_instance.ani_vermifugado
         self.fields['ani_obs'].initial = self.animal_instance.ani_obs
 
     def save(self):
@@ -356,13 +344,12 @@ class UpdateAnimalForm(forms.Form):
         self.animal_instance.ani_espec = self.cleaned_data['ani_espec']
         self.animal_instance.ani_sexo = self.cleaned_data['ani_sexo']
         self.animal_instance.ani_porte = self.cleaned_data['ani_porte']
+        self.animal_instance.ani_peso = self.cleaned_data['ani_peso']
         self.animal_instance.ani_dnasc = self.cleaned_data['ani_dnasc']
         self.animal_instance.ani_rga = self.cleaned_data['ani_rga']
         self.animal_instance.ani_anilha = self.cleaned_data['ani_anilha']
         self.animal_instance.ani_nmchip = self.cleaned_data['ani_nmchip']
         self.animal_instance.ani_idade = self.cleaned_data['ani_idade']
-        self.animal_instance.ani_vacinado = self.cleaned_data['ani_vacinado']
-        self.animal_instance.ani_vermifugado = self.cleaned_data['ani_vermifugado']
         self.animal_instance.ani_obs = self.cleaned_data['ani_obs']
 
         # Verifica se um novo arquivo de foto foi fornecido
