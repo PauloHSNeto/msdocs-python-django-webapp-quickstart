@@ -380,3 +380,86 @@ class UpdateAnimalForm(forms.Form):
         if self.request and self.request.user.is_authenticated:
             return self.request.user
         return None
+
+
+class AddVacinaForm(forms.ModelForm):
+    VAC_TIPO_CHOICES = [
+        ('V8 ou V10', 'V8 ou V10'),
+        ('Antirrábica', 'Antirrábica'),
+        ('Contra giárdia', 'Contra giárdia'),
+        ('Contra tosse dos canis', 'Contra tosse dos canis'),
+        ('Vermífugo', 'Vermífugo'),
+        ('Antipulgas e Carrapaticidas', 'Antipulgas e Carrapaticidas'),
+        ('Exame de sangue', 'Exame de sangue'),
+        ("Exame de urina ou fezes", "Exame de urina ou fezes"),
+        ('Testes de diagnóstico por imagem', 'Testes de diagnóstico por imagem'),
+        ('Outros', 'Outros'),
+    ]
+
+    vac_tipo = forms.ChoiceField(choices=VAC_TIPO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Tipo')
+
+    class Meta:
+        model = Vacina
+        fields = ['vac_nome', 'vac_tipo', 'vac_data_admin', 'vac_validade', 'vac_num_dose', 'vac_fabricante', 'vac_anexo']
+        labels = {
+            'vac_nome': 'Nome',
+            'vac_data_admin': 'Data de Aplicação/Exame',
+            'vac_validade': 'Validade',
+            'vac_num_dose': 'Doses',
+            'vac_fabricante': 'Fabricante/Laboratório',
+            'vac_anexo': 'Anexo',
+        }
+        widgets = {
+            'vac_nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'vac_data_admin': forms.TextInput(attrs={'class': 'form-control datepicker'}),
+            'vac_validade': forms.TextInput(attrs={'class': 'form-control datepicker'}),
+            'vac_num_dose': forms.NumberInput(attrs={'class': 'form-control'}),
+            'vac_fabricante': forms.TextInput(attrs={'class': 'form-control'}),
+            'vac_anexo': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+class UpdateVacinaForm(forms.ModelForm):
+    VAC_TIPO_CHOICES = [
+        ('V8 ou V10', 'V8 ou V10'),
+        ('Antirrábica', 'Antirrábica'),
+        ('Contra giárdia', 'Contra giárdia'),
+        ('Contra tosse dos canis', 'Contra tosse dos canis'),
+        ('Vermífugo', 'Vermífugo'),
+        ('Antipulgas e Carrapaticidas', 'Antipulgas e Carrapaticidas'),
+        ('Exame de sangue', 'Exame de sangue'),
+        ("Exame de urina ou fezes", "Exame de urina ou fezes"),
+        ('Testes de diagnóstico por imagem', 'Testes de diagnóstico por imagem'),
+        ('Outros', 'Outros'),
+    ]
+
+    vac_tipo = forms.ChoiceField(choices=VAC_TIPO_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Tipo')
+
+    class Meta:
+        model = Vacina
+        fields = ['vac_nome', 'vac_tipo', 'vac_data_admin', 'vac_validade', 'vac_num_dose', 'vac_fabricante', 'vac_anexo']
+        labels = {
+            'vac_nome': 'Nome',
+            'vac_data_admin': 'Data de Aplicação/Exame',
+            'vac_validade': 'Validade',
+            'vac_num_dose': 'Doses',
+            'vac_fabricante': 'Fabricante/Laboratório',
+            'vac_anexo': 'Anexo',
+        }
+        widgets = {
+            'vac_nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'vac_data_admin': forms.TextInput(attrs={'class': 'form-control datepicker'}),
+            'vac_validade': forms.TextInput(attrs={'class': 'form-control datepicker'}),
+            'vac_num_dose': forms.NumberInput(attrs={'class': 'form-control'}),
+            'vac_fabricante': forms.TextInput(attrs={'class': 'form-control'}),
+            'vac_anexo': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['vac_anexo'].required = False
+
+    def clean_vac_anexo(self):
+        vac_anexo = self.cleaned_data['vac_anexo']
+        if not vac_anexo and self.instance:
+            return self.instance.vac_anexo
+        return vac_anexo

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p></p>
+<h2 class="text-center"></h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card mt-5">
+        <div class="card-header">
+          <h4 class="text-center">Cadastrar Vacina/Vermífugo/Exame</h4>
+        </div>
+            <div class="card-body">
+              <form method="POST"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-dark">Cadastrar</button>
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <a href="{% url 'animal_profile' animal.id %}" class="btn btn-secondary">Voltar</a>
+                  </div>
+                </form>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% endblock %}

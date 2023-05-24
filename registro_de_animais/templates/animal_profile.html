@@ -38,6 +38,10 @@
 .observations {
     width: 100%;
 }
+
+.btn-green {
+  background-color: rgb(15, 68, 15);
+}
 </style>
 {% endblock %}
 
@@ -62,7 +66,7 @@
           <p><strong>Porte:</strong> {{ animal.ani_porte }}</p>
           <p><strong>Registro Geral:</strong> {{ animal.ani_rga }}</p>
           <p><strong>Anilha:</strong> {{ animal.ani_anilha }}</p>
-        </div>
+                  </div>
         <div class="col-md-6">
           <p><strong>Data de Nascimento:</strong> {{ animal.ani_dnasc }}</p>
           <p><strong>Idade:</strong> {{ animal.ani_idade }}</p>
@@ -72,7 +76,10 @@
           <p><strong>Castrado:</strong> {{animal.ani_castr}}</p>
           <p><strong>Microchip:</strong> {{ animal.ani_nmchip }}</p>
         </div>
-        <p><strong>Observações:</strong></p>
+      <p></p> <p></p>
+      <div class="text-center"><a href="{% url 'vacinas_list' animal.id %}" class="btn btn-success btn-green">Vacinas/Vermífugos/Exames</a>
+      </div> <p></p> <p></p>
+      <p><strong>Observações:</strong></p>
         <div class="observations">
             <p>{{ animal.ani_obs }}</p>
           </div>
