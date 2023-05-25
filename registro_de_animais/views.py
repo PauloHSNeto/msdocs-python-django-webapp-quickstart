@@ -136,6 +136,7 @@ def update_animal(request, pk):
                 return redirect('animal_profile', pk=pk)
         else:
             form = UpdateAnimalForm(animal_instance=current_animal)
+            messages.success(request, "errou fiote")
 
         return render(request, 'update_animal.html', {'form': form})
     else:
