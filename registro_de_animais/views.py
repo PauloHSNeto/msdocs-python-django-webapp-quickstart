@@ -129,16 +129,19 @@ def update_animal(request, pk):
 
     if has_role(request.user, 'sindico') or current_animal.tutor == request.user:
         if request.method == 'POST':
-            form = UpdateAnimalForm(request.POST, request.FILES, animal_instance=current_animal)
+            form = UpdateAnimalForm(request.POST, request.FILES, instance=current_animal)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Animal atualizado")
                 return redirect('animal_profile', pk=pk)
         else:
-            form = UpdateAnimalForm(animal_instance=current_animal)
-            messages.success(request, "errou fiote")
+            form = UpdateAnimalForm(instance=current_animal)
 
-        return render(request, 'update_animal.html', {'form': form})
+        context = {
+            'form': form,
+            'current_animal': current_animal
+        }
+        return render(request, 'update_animal.html', context)
     else:
         messages.error(request, "Você não tem permissão para atualizar este animal.")
         return redirect('home')
