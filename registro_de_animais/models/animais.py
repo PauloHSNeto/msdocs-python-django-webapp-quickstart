@@ -10,7 +10,7 @@ class Animal(models.Model):
     ani_espec = models.CharField(max_length=50, default='')
     ani_sexo = models.CharField(max_length=50, default='')
     ani_cor = models.CharField(max_length=50, default='')
-    ani_foto = models.ImageField(blank=True, null=True, upload_to='pet_profile_pics', default='')
+    ani_foto = models.ImageField(upload_to='pet_profile_pics',  null=True, blank=True)
     ani_porte = models.CharField(max_length=50, default='')
     ani_peso = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     ani_rga = models.CharField(max_length=50, blank=True, null=True)

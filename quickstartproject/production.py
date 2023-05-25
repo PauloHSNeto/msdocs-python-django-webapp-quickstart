@@ -3,7 +3,7 @@ import os
 
 # Configure the domain name using the environment variable
 # that Azure automatically creates for us.
-ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+ALLOWED_HOSTS = ['*']
 
 # WhiteNoise configuration
 MIDDLEWARE = [                                                                   
@@ -20,3 +20,10 @@ MIDDLEWARE = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
+STATIC_URL = r'/static/'
+
+
+MEDIA_ROOT = BASE_DIR.joinpath('media')
+MEDIA_URL = r'/media/'
+
