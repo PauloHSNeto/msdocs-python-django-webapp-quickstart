@@ -51,7 +51,7 @@
 <div class="pet-profile card">
   <div class="row table-responsive card-body">
     <div class="col-md-4 text-center">
-      {% if animal.ani_foto.url %}
+      {% if animal.ani_foto %}
       <img
         src="{{ animal.ani_foto.url }}"
         class="img-fluid"
@@ -70,8 +70,7 @@
       <div class="row">
         <div class="col-md-6">
           <p>
-            <strong>Tutor:</strong>{{ animal.tutor.first_name }} {{
-            animal.tutor.last_name }}
+            <strong>Tutor:</strong>{{ animal.tutor.first_name }} {{ animal.tutor.last_name }}
           </p>
           <p><strong>Raça:</strong> {{ animal.ani_raça }}</p>
           <p><strong>Espécie:</strong> {{ animal.ani_espec }}</p>
